@@ -1,0 +1,28 @@
+#!/bin/sh
+
+case $1 in
+	start)
+		echo "LDD: Loading faulty modules...."
+		module_load faulty
+
+		echo "LDD: Loading scull modules...."
+		scull_load
+
+		echo "LDD: Loading hello"
+		modprobe hello.ko
+
+		echo "LDD: Modules loaded"
+		;;
+	stop)
+		rmmod hello.ko
+		scull_unload
+		module_unload faulty
+
+		echo "LDD: Modules unloaded"
+		;;
+	*)
+		echo "Usage: $0 {start|stop}"
+	exit 1
+esac
+
+exit 0
